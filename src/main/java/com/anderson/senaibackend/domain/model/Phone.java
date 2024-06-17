@@ -1,7 +1,6 @@
-package com.anderson.generationos.domain.model;
+package com.anderson.senaibackend.domain.model;
 
 import jakarta.persistence.*;
-import org.w3c.dom.Text;
 
 import java.io.Serializable;
 import java.util.Objects;

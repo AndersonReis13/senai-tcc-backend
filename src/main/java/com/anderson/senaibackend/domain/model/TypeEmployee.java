@@ -1,5 +1,4 @@
-package com.anderson.generationos.domain.model;
-
+package com.anderson.senaibackend.domain.model;
 import jakarta.persistence.*;
 
 import java.util.Objects;

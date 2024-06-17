@@ -1,4 +1,4 @@
-package com.anderson.generationos.domain.model;
+package com.anderson.senaibackend.domain.model;
 
 import jakarta.persistence.*;
 
@@ -100,11 +100,11 @@ public class Client implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public Phone getPhoneId() {
+    public com.anderson.generationos.domain.model.Phone getPhoneId() {
         return phoneId;
     }
 
-    public void setPhoneId(Phone phoneId) {
+    public void setPhoneId(com.anderson.generationos.domain.model.Phone phoneId) {
         this.phoneId = phoneId;
     }
 
