@@ -1,12 +1,11 @@
 package com.anderson.senaibackend.domain.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 
+@Entity
+@Table(name = "tb_product_status")
 public class ProductStatus implements Serializable {
 
     @Id
