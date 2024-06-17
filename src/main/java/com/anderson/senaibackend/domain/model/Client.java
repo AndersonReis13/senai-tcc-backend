@@ -100,11 +100,11 @@ public class Client implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public com.anderson.generationos.domain.model.Phone getPhoneId() {
+    public Phone getPhoneId() {
         return phoneId;
     }
 
-    public void setPhoneId(com.anderson.generationos.domain.model.Phone phoneId) {
+    public void setPhoneId(Phone phoneId) {
         this.phoneId = phoneId;
     }
 
