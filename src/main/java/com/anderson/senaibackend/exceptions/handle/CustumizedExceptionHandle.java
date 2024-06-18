@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.WebRequest;
 
 import java.util.Date;
 
@@ -16,39 +15,34 @@ import java.util.Date;
 public class CustumizedExceptionHandle {
 
      @ExceptionHandler(Exception.class)
-    public final ResponseEntity<ModelExceptions> handleAllExcepttions(Exception ex, WebRequest request){
-         ModelExceptions modelExceptions = new ModelExceptions(
-                 ex.getMessage(),
-                 request.getDescription(false),
-                 HttpStatus.INTERNAL_SERVER_ERROR,
-                 HttpStatus.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()),
-                 new Date()
-         );
+    public final ResponseEntity<ModelExceptions> handleAllExcepttions(Exception ex){
+       ModelExceptions modelExceptions = new ModelExceptions(
+               ex.getMessage(),
+               HttpStatus.valueOf(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR)),
+               Integer.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()),
+               new Date());
 
-         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(modelExceptions);
+       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(modelExceptions);
     }
 
     @ExceptionHandler(BadRequestFoundException.class)
-    public final ResponseEntity<ModelExceptions> badRequestExceptionHandle(BadRequestFoundException bad, WebRequest request ){
-         ModelExceptions modelExceptions = new ModelExceptions(
-           bad.getMessage(),
-           request.getDescription(false),
-           HttpStatus.BAD_REQUEST,
-           HttpStatus.valueOf(HttpStatus.BAD_REQUEST.value()),
-           new Date()
-         );
-         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(modelExceptions);
+    public final ResponseEntity<ModelExceptions> badRequestExceptionHandle(BadRequestFoundException bad){
+        ModelExceptions modelExceptions = new ModelExceptions(
+                bad.getMessage(),
+                HttpStatus.valueOf(String.valueOf(HttpStatus.BAD_REQUEST)),
+                Integer.valueOf(HttpStatus.BAD_REQUEST.value()),
+                new Date());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(modelExceptions);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public final ResponseEntity<ModelExceptions> resourceNotFoundExceptionHandle(ResourceNotFoundException resource, WebRequest request){
-         ModelExceptions modelExceptions = new ModelExceptions(
-                 resource.getMessage(),
-                 request.getDescription(false),
-                 HttpStatus.NOT_FOUND,
-                 HttpStatus.valueOf(HttpStatus.NOT_FOUND.value()),
-                 new Date()
-         );
-         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(modelExceptions);
+    public final ResponseEntity<ModelExceptions> resourceNotFoundExceptionHandle(ResourceNotFoundException resource){
+        ModelExceptions modelExceptions = new ModelExceptions(
+                resource.getMessage(),
+                HttpStatus.valueOf(String.valueOf(HttpStatus.NOT_FOUND)),
+                Integer.valueOf(HttpStatus.NOT_FOUND.value()),
+                new Date());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(modelExceptions);
     }
 }

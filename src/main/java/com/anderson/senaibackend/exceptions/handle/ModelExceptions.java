@@ -7,16 +7,14 @@ import java.util.Date;
 public class ModelExceptions {
 
 
-    private String msg;
     private String detail;
     private HttpStatus httpStatus;
-    private Long httpCode;
+    private Integer httpCode;
     private Date timeInstant;
 
-    public ModelExceptions(String message, String description, HttpStatus internalServerError, HttpStatus httpStatus, Date timeInstant){}
+    public ModelExceptions(){}
 
-    public ModelExceptions(String msg, String detail, HttpStatus httpStatus, Long httpCode, Date timeInstant) {
-        this.msg = msg;
+    public ModelExceptions(String detail, HttpStatus httpStatus, Integer httpCode, Date timeInstant) {
         this.detail = detail;
         this.httpStatus = httpStatus;
         this.httpCode = httpCode;
@@ -39,11 +37,11 @@ public class ModelExceptions {
         this.httpStatus = httpStatus;
     }
 
-    public Long getHttpCode() {
+    public Integer getHttpCode() {
         return httpCode;
     }
 
-    public void setHttpCode(Long httpCode) {
+    public void setHttpCode(Integer httpCode) {
         this.httpCode = httpCode;
     }
 
@@ -55,11 +53,4 @@ public class ModelExceptions {
         this.timeInstant = timeInstant;
     }
 
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
 }
