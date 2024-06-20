@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "tb_client")
+@Table(name = "client")
 public class Client implements Serializable {
 
     @Id
@@ -35,6 +35,15 @@ public class Client implements Serializable {
     private Phone phoneId;
 
     public Client(){
+    }
+
+    public Client(String firstName, String lastName, String email, String cpf, String address, String phoneNumber, Phone phoneId) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.cpf = cpf;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
     }
 
     public Client(Long id, String firstName, String lastName, String email, String cpf, String address, String phoneNumber, Phone phoneId) {
