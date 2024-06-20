@@ -18,7 +18,7 @@ public class Employee implements Serializable {
     @Column(name = "last_name", length = 100)
     private String lastName;
 
-    @Column(name = "email", length = 150)
+    @Column(name = "email", length = 150, unique = true)
     private String email;
 
     @Column(name = "cpf", length = 20)
