@@ -5,6 +5,7 @@ import com.anderson.senaibackend.domain.model.Phone;
 import com.anderson.senaibackend.domain.repositories.ClientRepository;
 import com.anderson.senaibackend.domain.repositories.PhoneRepository;
 import com.anderson.senaibackend.dto.ClientDto;
+import com.anderson.senaibackend.exceptions.BadRequestFoundException;
 import com.anderson.senaibackend.exceptions.ResourceNotFoundException;
 import com.anderson.senaibackend.mapper.ClientDtoToEntity;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,16 @@ public class ClientService {
                 .orElseThrow(()-> new ResourceNotFoundException("Esse phone não existe"));
         Phone phone = phoneId;
 
+        checkFieldInClientDataBase(dto.email(), dto.cpf());
+
         return clientRepository.save(ClientDtoToEntity.toEntity(dto, phone));
     }
+
+    public void checkFieldInClientDataBase(String email, String cpf){
+        if (clientRepository.existsByEmailOrCpf(email, cpf)) {
+          throw  new BadRequestFoundException("já existe um email ou cpf como esse cadastrado no sistema");
+        }
+    }
+
+
 }
