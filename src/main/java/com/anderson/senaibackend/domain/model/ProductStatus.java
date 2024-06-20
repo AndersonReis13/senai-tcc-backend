@@ -3,9 +3,10 @@ package com.anderson.senaibackend.domain.model;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
-@Table(name = "tb_product_status")
+@Table(name = "product_status")
 public class ProductStatus implements Serializable {
 
     @Id
@@ -47,11 +48,21 @@ public class ProductStatus implements Serializable {
         private Long id;
         private String description;
 
-        ProductStatus get(){
+        public ProductStatus get(){
             return new ProductStatus(id, description);
         }
 
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ProductStatus that)) return false;
+        return Objects.equals(getId(), that.getId());
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getId());
+    }
 }

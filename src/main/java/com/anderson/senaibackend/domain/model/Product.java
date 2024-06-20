@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
-@Table(name = "tb_product")
+@Table(name = "product")
 public class Product implements Serializable{
 
     @Id
@@ -96,4 +96,6 @@ public class Product implements Serializable{
     public int hashCode() {
         return Objects.hash(getId());
     }
+
+
 }

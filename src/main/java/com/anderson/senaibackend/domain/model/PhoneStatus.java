@@ -37,7 +37,7 @@ public class PhoneStatus {
 
     public enum Enum{
         PENDENTE(1L, "pendente"),
-        CONCLUIDO(2L, "description");
+        CONCLUIDO(2L, "concluido");
 
         Enum(Long id, String description){
             this.id = id;
