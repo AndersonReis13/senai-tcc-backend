@@ -6,7 +6,9 @@ import com.anderson.senaibackend.dto.ClientDto;
 
 public class ClientDtoToEntity {
     public static Client toEntity(ClientDto dto, Phone phone){
-        return new Client(dto.firstName(),
+        return new Client(
+                dto.id(),
+                dto.firstName(),
                 dto.lastName(),
                 dto.email(),
                 dto.cpf(),

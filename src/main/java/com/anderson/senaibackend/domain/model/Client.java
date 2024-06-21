@@ -37,14 +37,6 @@ public class Client implements Serializable {
     public Client(){
     }
 
-    public Client(String firstName, String lastName, String email, String cpf, String address, String phoneNumber, Phone phoneId) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.cpf = cpf;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-    }
 
     public Client(Long id, String firstName, String lastName, String email, String cpf, String address, String phoneNumber, Phone phoneId) {
         this.id = id;
