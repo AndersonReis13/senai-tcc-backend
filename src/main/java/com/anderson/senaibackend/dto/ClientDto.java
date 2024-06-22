@@ -2,14 +2,15 @@ package com.anderson.senaibackend.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public record ClientDto(
                         Long id,
                         @NotBlank String firstName,
                         @NotBlank String lastName,
                         @NotBlank String email,
-                        @NotBlank String cpf,
+                        @NotBlank @Size(min = 11, max = 11, message = "O cpf tem que conter dois digitos") String cpf,
                         @NotBlank String address,
-                        @NotBlank String phoneNumber,
+                        @NotBlank @Size(min = 9, max = 11, message = "número de telefone invalido") String phoneNumber,
                         @NotNull Long phoneId){
 }

@@ -7,11 +7,10 @@ import com.anderson.senaibackend.domain.repositories.PhoneRepository;
 import com.anderson.senaibackend.dto.ClientDto;
 import com.anderson.senaibackend.exceptions.BadRequestFoundException;
 import com.anderson.senaibackend.exceptions.ResourceNotFoundException;
-import com.anderson.senaibackend.mapper.ClientDtoToEntity;
+import com.anderson.senaibackend.mapper.ClientMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.logging.Logger;
 
 @Service
@@ -34,33 +33,60 @@ public class ClientService {
         return clientRepository.findAll();
     }
 
-    public Client findById(Long id){
+    public Client findByEmail(String email){
         logger.info("finding one client");
 
-        return clientRepository.findById(id)
-                .orElseThrow(()-> new ResourceNotFoundException("id não encontrado!"));
+        checkEmailInDatabe(email);
+        return clientRepository.findByEmail(email);
+    }
+
+    public Client findByCpf(String cpf){
+        logger.info("finding one client");
+
+        checkCpfInDatabe(cpf);
+        return clientRepository.findByCpf(cpf);
     }
 
     public Client createClient(ClientDto dto){
 
-        if(Objects.nonNull(dto.phoneId())){
-            new BadRequestFoundException("o id do celular está nulo");
-        }
 
         var entityPhone = phoneRepository.findById(dto.phoneId())
-                .orElseThrow(()-> new ResourceNotFoundException("Esse phone não existe"));
+                .orElseThrow(()-> new ResourceNotFoundException("Esse celular não existe"));
 
         Phone phone = entityPhone;
 
         System.out.println(phone);
         checkFieldInClientDataBase(dto.email(), dto.cpf());
 
-        return clientRepository.save(ClientDtoToEntity.toEntity(dto, phone));
+        return clientRepository.save(ClientMapper.toEntity(dto, phone));
+    }
+
+    public Client updateClient(ClientDto dto){
+        var entityPhone = phoneRepository.findById(dto.phoneId())
+                .orElseThrow(() -> new ResourceNotFoundException("esse celular não existe"));
+
+        Phone phone = entityPhone;
+
+        var entityClient = clientRepository.findById(dto.id())
+                .orElseThrow(() -> new ResourceNotFoundException("esse cliente não existe cadastrado"));
+                return clientRepository.save(ClientMapper.toEntity(dto, phone));
     }
 
     public void checkFieldInClientDataBase(String email, String cpf){
-        if (clientRepository.existsByEmailOrCpf(email, cpf)) {
+        if (clientRepository.existsByEmailOrCpf(email, cpf)){
           throw new BadRequestFoundException("já existe um email ou cpf como esse cadastrado no sistema");
+        }
+    }
+
+    public void checkEmailInDatabe(String email){
+        if(clientRepository.existsByEmail(email)){
+            throw new ResourceNotFoundException("Email não encontrado");
+        }
+    }
+
+    public void checkCpfInDatabe(String cpf){
+        if(clientRepository.existsByEmail(cpf)){
+            throw new ResourceNotFoundException("cpf não encontrado");
         }
     }
 

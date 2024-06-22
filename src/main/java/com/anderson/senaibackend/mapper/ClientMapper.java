@@ -4,7 +4,7 @@ import com.anderson.senaibackend.domain.model.Client;
 import com.anderson.senaibackend.domain.model.Phone;
 import com.anderson.senaibackend.dto.ClientDto;
 
-public class ClientDtoToEntity {
+public class ClientMapper {
     public static Client toEntity(ClientDto dto, Phone phone){
         return new Client(
                 dto.id(),
