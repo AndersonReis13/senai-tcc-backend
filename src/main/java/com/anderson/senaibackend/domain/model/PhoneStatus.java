@@ -51,7 +51,6 @@ public class PhoneStatus {
             return new PhoneStatus(id, description);
         }
 
-
     }
 
     @Override

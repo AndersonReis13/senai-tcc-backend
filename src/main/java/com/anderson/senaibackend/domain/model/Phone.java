@@ -22,9 +22,9 @@ public class Phone implements Serializable {
     @Column(name = "problem_description")
     private String problemDescription;
 
-    @OneToOne
-    @JoinColumn(name = "status")
-    private PhoneStatus status;
+    @ManyToOne
+    @JoinTable(name = "status")
+    private PhoneStatus phoneStatusId;
 
     public Phone() {
     }
@@ -34,7 +34,7 @@ public class Phone implements Serializable {
         this.brand = brand;
         this.model = model;
         this.problemDescription = problemDescription;
-        this.status = status;
+        this.phoneStatusId = status;
     }
 
     public Long getId() {
@@ -70,11 +70,11 @@ public class Phone implements Serializable {
     }
 
     public PhoneStatus getStatus() {
-        return status;
+        return phoneStatusId;
     }
 
     public void setStatus(PhoneStatus status) {
-        this.status = status;
+        this.phoneStatusId = status;
     }
 
     @Override
@@ -87,5 +87,15 @@ public class Phone implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(getId());
+    }
+
+    @Override
+    public String toString() {
+        return "Phone{" +
+                "brand='" + brand + '\'' +
+                ", model='" + model + '\'' +
+                ", problemDescription='" + problemDescription + '\'' +
+                ", status=" + phoneStatusId +
+                '}';
     }
 }
