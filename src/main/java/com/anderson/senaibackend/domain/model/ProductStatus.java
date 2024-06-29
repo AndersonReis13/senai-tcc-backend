@@ -37,8 +37,8 @@ public class ProductStatus implements Serializable {
     }
 
     public enum Enum{
-        PENDENDTE(1L, "pendente"),
-        CONCLUIDO(2L, "concluido");
+        ESTOQUE(1L, "PENDENTE"),
+        FINALIZADO(2L, "PENDENTE");
 
         Enum(Long id, String description){
             this.id = id;
