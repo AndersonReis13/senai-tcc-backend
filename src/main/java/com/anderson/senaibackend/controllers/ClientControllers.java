@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "cos/")
+@RequestMapping(value = "cos/client")
 public class ClientControllers {
 
     private final ClientService clientService;
@@ -19,24 +19,30 @@ public class ClientControllers {
         this.clientService = clientService;
     }
 
-    @GetMapping(value = "client/all")
+    @GetMapping(value = "/all")
     public ResponseEntity<List<Client>> findAll(){
         return ResponseEntity.ok().body(clientService.findAll());
     }
 
-    @GetMapping(value = "client/{cpf}")
+    @GetMapping(value = "/{cpf}")
     public ResponseEntity<Client> findByCpf(@PathVariable(value = "cpf") String cpf){
         return ResponseEntity.ok().body(clientService.findByCpf(cpf));
     }
 
-    @PostMapping(value = "client/create-client")
+    @PostMapping(value = "/create")
     public ResponseEntity<Client> createClient(@RequestBody ClientDto dto){
         return ResponseEntity.status(HttpStatus.CREATED).body(clientService.createClient(dto));
     }
 
-    @PutMapping(value = "client/update")
+    @PutMapping(value = "/update-client")
     public ResponseEntity<Client> updateClient(@RequestBody ClientDto dto){
         return ResponseEntity.ok().body(clientService.updateClient(dto));
+    }
+
+    @DeleteMapping(value = "/delete/{id}")
+    public ResponseEntity<?> deleteClient(@PathVariable(value = "id") Long id){
+        clientService.deleteClient(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 
 }

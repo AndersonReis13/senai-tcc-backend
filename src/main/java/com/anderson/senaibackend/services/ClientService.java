@@ -50,10 +50,10 @@ public class ClientService {
     public Client createClient(ClientDto dto){
 
 
-        var entityPhone = phoneRepository.findById(dto.phoneId())
+        var phoneDb = phoneRepository.findById(dto.phoneId())
                 .orElseThrow(()-> new ResourceNotFoundException("Esse celular não existe"));
 
-        Phone phone = entityPhone;
+        Phone phone = phoneDb;
 
         System.out.println(phone);
         checkFieldInClientDataBase(dto.email(), dto.cpf());
@@ -62,14 +62,21 @@ public class ClientService {
     }
 
     public Client updateClient(ClientDto dto){
-        var entityPhone = phoneRepository.findById(dto.phoneId())
+        var phoneDb = phoneRepository.findById(dto.phoneId())
                 .orElseThrow(() -> new ResourceNotFoundException("esse celular não existe"));
 
-        Phone phone = entityPhone;
+        Phone phone = phoneDb;
 
         var entityClient = clientRepository.findById(dto.id())
                 .orElseThrow(() -> new ResourceNotFoundException("esse cliente não existe cadastrado"));
                 return clientRepository.save(ClientMapper.toEntity(dto, phone));
+    }
+
+    public void deleteClient(Long id){
+        var ClientDb = clientRepository.findById(id)
+                        .orElseThrow(() -> new ResourceNotFoundException("o client não foi encontrado"));
+        Client client = ClientDb;
+        clientRepository.delete(client);
     }
 
     public void checkFieldInClientDataBase(String email, String cpf){

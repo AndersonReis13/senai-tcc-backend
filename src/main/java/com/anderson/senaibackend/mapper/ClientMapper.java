@@ -14,6 +14,7 @@ public class ClientMapper {
                 dto.cpf(),
                 dto.address(),
                 dto.phoneNumber(),
-                phone);
+                phone
+        );
     }
 }
