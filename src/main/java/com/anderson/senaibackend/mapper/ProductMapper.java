@@ -11,7 +11,7 @@ public class ProductMapper {
                 dto.brand(),
                 dto.price(),
                 dto.quantity(),
-                type);
+                status);
 
     }
 }
