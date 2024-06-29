@@ -29,7 +29,7 @@ public class ProductServices {
     }
 
     public Product create(ProductDto dto){
-        // todo produto cadastrado terá que entrar como em "estoque"
+        // produto cadastrado terá que entrar como em "estoque"
 
         return null;
     }
