@@ -1,9 +1,8 @@
 package com.anderson.senaibackend.services;
 
 import com.anderson.senaibackend.domain.model.Employee;
-import com.anderson.senaibackend.domain.model.TypeEmployee;
+import com.anderson.senaibackend.domain.model.enums.TypeEmployee;
 import com.anderson.senaibackend.domain.repositories.EmployeeRepository;
-import com.anderson.senaibackend.domain.repositories.TypeEmployeeRepository;
 import com.anderson.senaibackend.dto.EmployeeDto;
 import com.anderson.senaibackend.exceptions.BadRequestFoundException;
 import com.anderson.senaibackend.exceptions.ResourceNotFoundException;
@@ -16,11 +15,10 @@ import java.util.List;
 public class EmployeeService{
 
     private final EmployeeRepository employeeRepository;
-    private final TypeEmployeeRepository typeEmployeeRepository;
 
-    public EmployeeService(EmployeeRepository employeeRepository, TypeEmployeeRepository typeEmployeeRepository) {
+
+    public EmployeeService(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
-        this.typeEmployeeRepository = typeEmployeeRepository;
     }
 
     public List<Employee> findAll(){
@@ -33,24 +31,30 @@ public class EmployeeService{
     }
 
     public Employee create(EmployeeDto dto){
-        var employeeStatusDb = typeEmployeeRepository.findById(dto.typeEmployeeId())
-                .orElseThrow(()-> new ResourceNotFoundException("tipo de empregador não encontrado"));
-        checkFieldEmailInDataBase(dto.email());
 
-        TypeEmployee typeEmployee = employeeStatusDb;
+        checkFieldEmailInDataBase(dto.email());// verificando se ja existe um email cadastrado
 
-        // apenas gerente poderá realizar o cadastro de novos funcionarios
+        if(dto.typeEmployee() == null){
+            throw new BadRequestFoundException("typeEmployee não pode ser null");
+        }
 
-        return employeeRepository.save(EmployeeMapper.toEntity(dto, typeEmployee));
+        checkEnumInField(dto.typeEmployee()); // verificando se exisite o tipo selecionado
+
+        return employeeRepository.save(EmployeeMapper.toEntity(dto));
     }
 
     public Employee updateEmployee(EmployeeDto dto){
-        var employeeStatusDb = typeEmployeeRepository.findById(dto.typeEmployeeId())
-                .orElseThrow(()-> new ResourceNotFoundException("tipo de empregador não encontrado"));
 
-        TypeEmployee typeEmployee = employeeStatusDb;
+        employeeRepository.findById(dto.id())
+                .orElseThrow(()-> new ResourceNotFoundException("Funcionario não encontrado"));
 
-        return employeeRepository.save(EmployeeMapper.toEntity(dto, typeEmployee));
+        if(dto.typeEmployee() == null){
+            throw new BadRequestFoundException("typeEmployee não pode ser null");
+        }
+
+        checkEnumInField(dto.typeEmployee());
+
+        return employeeRepository.save(EmployeeMapper.toEntity(dto));
     }
 
     public void deleteEmployee(Long id){
@@ -68,4 +72,9 @@ public class EmployeeService{
         }
     }
 
+    public void checkEnumInField(String status){
+        if(!TypeEmployee.existsEnum(status)){
+            throw new BadRequestFoundException("Não existe este tipo de empregador");
+        }
+    }
 }

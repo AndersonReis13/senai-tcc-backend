@@ -1,5 +1,6 @@
 package com.anderson.senaibackend.domain.model;
 
+import com.anderson.senaibackend.domain.model.enums.TypeEmployee;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -27,9 +28,9 @@ public class Employee implements Serializable {
     @Column(name = "phone_number", length = 11)
     private String phoneNumber;
 
-    @OneToOne
-    @JoinColumn(name = "type_employee_id")
-    private TypeEmployee typeEmployeeId;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "employee_status", nullable = false)
+    private TypeEmployee employeeStatus;
 
     public Employee() {
     }
@@ -41,7 +42,7 @@ public class Employee implements Serializable {
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
-        this.typeEmployeeId = typeEmployeeId;
+        this.employeeStatus = typeEmployeeId;
     }
 
     public Long getId() {
@@ -89,11 +90,11 @@ public class Employee implements Serializable {
     }
 
     public TypeEmployee getTypeEmployeeId() {
-        return typeEmployeeId;
+        return employeeStatus;
     }
 
     public void setTypeEmployeeId(TypeEmployee typeEmployeeId) {
-        this.typeEmployeeId = typeEmployeeId;
+        this.employeeStatus = typeEmployeeId;
     }
 
     @Override
