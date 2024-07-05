@@ -7,5 +7,5 @@ public record ProductDto(Long id,
                          String brand,
                          BigDecimal price,
                          Integer quantity,
-                         Long status) {
+                         String productStatus) {
 }

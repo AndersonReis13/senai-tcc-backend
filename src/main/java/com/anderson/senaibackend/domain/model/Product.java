@@ -1,5 +1,6 @@
 package com.anderson.senaibackend.domain.model;
 
+import com.anderson.senaibackend.domain.model.enums.ProductStatus;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -25,8 +26,8 @@ public class Product implements Serializable{
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
-    @OneToOne
-    @JoinColumn(name = "status")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "product_status", nullable = false)
     private ProductStatus status;
 
     public Product() {
@@ -96,6 +97,5 @@ public class Product implements Serializable{
     public int hashCode() {
         return Objects.hash(getId());
     }
-
 
 }

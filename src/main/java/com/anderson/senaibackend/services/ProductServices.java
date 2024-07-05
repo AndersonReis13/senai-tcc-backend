@@ -1,21 +1,23 @@
 package com.anderson.senaibackend.services;
 
 import com.anderson.senaibackend.domain.model.Product;
+import com.anderson.senaibackend.domain.model.enums.ProductStatus;
 import com.anderson.senaibackend.domain.repositories.ProductRepository;
-import com.anderson.senaibackend.domain.repositories.ProductStatusRepository;
 import com.anderson.senaibackend.dto.ProductDto;
+import com.anderson.senaibackend.exceptions.BadRequestFoundException;
 import com.anderson.senaibackend.exceptions.ResourceNotFoundException;
+import com.anderson.senaibackend.mapper.ProductMapper;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ProductServices {
 
     private final ProductRepository productRepository;
-    private final ProductStatusRepository productStatusRepository;
 
-    public ProductServices(ProductRepository productRepository, ProductStatusRepository productStatusRepository) {
+    public ProductServices(ProductRepository productRepository) {
         this.productRepository = productRepository;
-        this.productStatusRepository = productStatusRepository;
     }
 
 
@@ -29,22 +31,20 @@ public class ProductServices {
     }
 
     public Product create(ProductDto dto){
-        // produto cadastrado terá que entrar como em "estoque"
+        if(dto.quantity() <= 0){
+            throw new BadRequestFoundException("Insira uma quantidade maior que 0");
+        }
 
-        return null;
+        return productRepository.save(ProductMapper.toEntity(dto));
     }
 
     public Product update(ProductDto dto){
-       // Verificar a quantidade e fazer automaticamente a conversão em estoque ou finalizado
-
-        return null;
+        return productRepository.save(ProductMapper.toEntity(dto));
     }
 
     public void delete(Long id){
-
         var productDb = productRepository.findById(id)
                         .orElseThrow(()-> new ResourceNotFoundException("produto não encontrado"));
-
         productRepository.delete(productDb);
     }
 }
