@@ -7,5 +7,5 @@ public record PhoneDto(Long id,
                        @NotBlank String brand,
                        @NotBlank String model,
                        @NotBlank String problemDescription,
-                       @NotNull Long status){
+                       @NotNull String phoneStatus){
 }

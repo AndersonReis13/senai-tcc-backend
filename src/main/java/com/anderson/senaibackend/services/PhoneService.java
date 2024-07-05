@@ -1,10 +1,10 @@
 package com.anderson.senaibackend.services;
 
 import com.anderson.senaibackend.domain.model.Phone;
-import com.anderson.senaibackend.domain.model.PhoneStatus;
+import com.anderson.senaibackend.domain.model.enums.PhoneStatus;
 import com.anderson.senaibackend.domain.repositories.PhoneRepository;
-import com.anderson.senaibackend.domain.repositories.PhoneStatusRepository;
 import com.anderson.senaibackend.dto.PhoneDto;
+import com.anderson.senaibackend.exceptions.BadRequestFoundException;
 import com.anderson.senaibackend.exceptions.ResourceNotFoundException;
 import com.anderson.senaibackend.mapper.PhoneMapper;
 import org.springframework.stereotype.Service;
@@ -15,11 +15,11 @@ import java.util.List;
 public class PhoneService {
 
     private final PhoneRepository phoneRepository;
-    private final PhoneStatusRepository phoneStatusRepository;
 
-    public PhoneService(PhoneRepository phoneRepository, PhoneStatusRepository phoneStatusRepository) {
+
+    public PhoneService(PhoneRepository phoneRepository) {
         this.phoneRepository = phoneRepository;
-        this.phoneStatusRepository = phoneStatusRepository;
+
     }
 
     public List<Phone> findAll() {
@@ -33,26 +33,38 @@ public class PhoneService {
 
     public Phone createPhone(PhoneDto dto) {
 
-        var phoneStatusDb = phoneStatusRepository.findById(dto.status())
-                .orElseThrow(()-> new ResourceNotFoundException("o status não foi encontrado"));
+        if(dto.phoneStatus() == null){
+            throw new BadRequestFoundException("O status não pode vim vazio");
+        }
 
-        PhoneStatus status = phoneStatusDb;
-        return phoneRepository.save(PhoneMapper.toEntity(dto,status));
+        checkEnumInField(dto.phoneStatus());
+
+
+        return phoneRepository.save(PhoneMapper.toEntity(dto));
     }
 
     public Phone updatePhone(PhoneDto dto){
+        if(dto.phoneStatus() == null){
+            throw new BadRequestFoundException("O status não pode vim vazio");
+        }
 
-        var phoneStatusDb = phoneStatusRepository.findById(dto.status())
-                .orElseThrow(() -> new ResourceNotFoundException("o status não foi encontrado"));
+        checkEnumInField(dto.phoneStatus());
 
-        PhoneStatus status = phoneStatusDb;
-        return phoneRepository.save(PhoneMapper.toEntity(dto, status));
+        return phoneRepository.save(PhoneMapper.toEntity(dto));
     }
 
     public void deletePhone(Long id){
         var phoneDb = phoneRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("O celular não foi encontrado"));
-        Phone phone = phoneDb;
-        phoneRepository.delete(phone);
+
+        phoneRepository.delete(phoneDb);
     }
+
+    public void checkEnumInField(String status){
+        if(!PhoneStatus.existsEnum(status)){
+            throw new BadRequestFoundException("Não existe este tipo de status de celular");
+        }
+    }
+
+
 }

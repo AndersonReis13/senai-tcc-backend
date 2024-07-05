@@ -1,5 +1,6 @@
 package com.anderson.senaibackend.domain.model;
 
+import com.anderson.senaibackend.domain.model.enums.PhoneStatus;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -22,9 +23,9 @@ public class Phone implements Serializable {
     @Column(name = "problem_description")
     private String problemDescription;
 
-    @ManyToOne
-    @JoinTable(name = "status")
-    private PhoneStatus phoneStatusId;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "phone_status", nullable = false)
+    private PhoneStatus phoneStatus;
 
     public Phone() {
     }
@@ -34,7 +35,7 @@ public class Phone implements Serializable {
         this.brand = brand;
         this.model = model;
         this.problemDescription = problemDescription;
-        this.phoneStatusId = status;
+        this.phoneStatus = status;
     }
 
     public Long getId() {
@@ -70,11 +71,11 @@ public class Phone implements Serializable {
     }
 
     public PhoneStatus getStatus() {
-        return phoneStatusId;
+        return phoneStatus;
     }
 
     public void setStatus(PhoneStatus status) {
-        this.phoneStatusId = status;
+        this.phoneStatus = status;
     }
 
     @Override
@@ -95,7 +96,7 @@ public class Phone implements Serializable {
                 "brand='" + brand + '\'' +
                 ", model='" + model + '\'' +
                 ", problemDescription='" + problemDescription + '\'' +
-                ", status=" + phoneStatusId +
+                ", status=" + phoneStatus +
                 '}';
     }
 }
