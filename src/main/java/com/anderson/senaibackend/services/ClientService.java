@@ -49,13 +49,11 @@ public class ClientService {
 
     public Client createClient(ClientDto dto){
 
-
         var phoneDb = phoneRepository.findById(dto.phoneId())
                 .orElseThrow(()-> new ResourceNotFoundException("Esse celular não existe"));
 
         Phone phone = phoneDb;
 
-        System.out.println(phone);
         checkFieldInClientDataBase(dto.email(), dto.cpf());
 
         return clientRepository.save(ClientMapper.toEntity(dto, phone));
