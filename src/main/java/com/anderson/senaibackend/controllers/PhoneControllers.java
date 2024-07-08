@@ -3,6 +3,7 @@ package com.anderson.senaibackend.controllers;
 import com.anderson.senaibackend.domain.model.Phone;
 import com.anderson.senaibackend.dto.PhoneDto;
 import com.anderson.senaibackend.services.PhoneService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,18 +30,18 @@ public class PhoneControllers {
     }
 
     @PostMapping(value = "/create")
-    public ResponseEntity<Phone>createPhone(@RequestBody PhoneDto dto){
-        return ResponseEntity.status(HttpStatus.CREATED).body(phoneService.createPhone(dto));
+    public ResponseEntity<Phone>createPhone(@Valid @RequestBody PhoneDto dto){
+        return ResponseEntity.status(HttpStatus.CREATED).body(phoneService.addPhone(dto));
     }
 
     @PutMapping(value = "/update")
-    public ResponseEntity<Phone> updatePhone(@RequestBody PhoneDto dto){
-        return ResponseEntity.ok().body(phoneService.updatePhone(dto));
+    public ResponseEntity<Phone> updatePhone(@Valid @RequestBody PhoneDto dto){
+        return ResponseEntity.ok().body(phoneService.modifyPhone(dto));
     }
 
     @DeleteMapping(value = "/delete/{id}")
     public ResponseEntity<?> deleteClient(@PathVariable(value = "id") Long id){
-        phoneService.deletePhone(id);
+        phoneService.removePhone(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 }
