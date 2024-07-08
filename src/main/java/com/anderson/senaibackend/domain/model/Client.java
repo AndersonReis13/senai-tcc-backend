@@ -1,5 +1,6 @@
 package com.anderson.senaibackend.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -13,25 +14,32 @@ public class Client implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "fist_name",length = 100)
+    @JsonProperty(value = "first_name")
     private String firstName;
 
     @Column(name = "last_name", length = 100)
+    @JsonProperty(value = "last_name")
     private String lastName;
 
     @Column(name = "email", length = 150, unique = true)
+    @JsonProperty(value = "email")
     private String email;
 
     @Column(name = "cpf", length = 11, unique = true)
+    @JsonProperty(value = "cpf")
     private String cpf;
 
     @Column(name = "address", length = 200)
+    @JsonProperty(value = "address")
     private String address;
 
     @Column(name = "phone_number", length = 11)
+    @JsonProperty(value = "phone_number")
     private String phoneNumber;
 
     @ManyToOne
     @JoinColumn(name = "phone_id")
+    @JsonProperty(value = "phone_id")
     private Phone phoneId;
 
     public Client(){
