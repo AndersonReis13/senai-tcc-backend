@@ -1,6 +1,7 @@
 package com.anderson.senaibackend.domain.model;
 
 import com.anderson.senaibackend.domain.model.enums.ProductStatus;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -16,18 +17,24 @@ public class Product implements Serializable{
     private Long id;
 
     @Column(name = "name", length = 150, nullable = false)
+    @JsonProperty(value = "name")
     private String name;
 
+    @Column(name = "brand", length= 150,nullable = false)
+    @JsonProperty(value = "brand")
     private String brand;
 
     @Column(name = "price", nullable = false)
+    @JsonProperty(value = "price")
     private BigDecimal price;
 
     @Column(name = "quantity", nullable = false)
+    @JsonProperty(value = "quantity")
     private Integer quantity;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "product_status", nullable = false)
+    @JsonProperty(value = "status")
     private ProductStatus status;
 
     public Product() {
