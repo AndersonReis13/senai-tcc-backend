@@ -1,6 +1,7 @@
 package com.anderson.senaibackend.domain.model;
 
 import com.anderson.senaibackend.domain.model.enums.TypeEmployee;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -14,22 +15,28 @@ public class Employee implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "fist_name",length = 100)
+    @JsonProperty(value = "first_name")
     private String firstName;
 
     @Column(name = "last_name", length = 100)
+    @JsonProperty(value = "last_name")
     private String lastName;
 
     @Column(name = "email", length = 150, unique = true)
+    @JsonProperty(value = "email")
     private String email;
 
-    @Column(name = "cpf", length = 20)
+    @Column(name = "password", length = 20)
+    @JsonProperty(value = "password")
     private String password;
 
     @Column(name = "phone_number", length = 11)
+    @JsonProperty(value = "phone_number")
     private String phoneNumber;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "employee_status", nullable = false)
+    @JsonProperty(value = "employee_status")
     private TypeEmployee employeeStatus;
 
     public Employee() {

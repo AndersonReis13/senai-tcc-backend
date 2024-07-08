@@ -3,6 +3,7 @@ package com.anderson.senaibackend.controllers;
 import com.anderson.senaibackend.domain.model.Employee;
 import com.anderson.senaibackend.dto.EmployeeDto;
 import com.anderson.senaibackend.services.EmployeeService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,13 +31,13 @@ public class EmployeeControllers {
     }
 
     @PostMapping(value = "/create")
-    public ResponseEntity<Employee> createEmployee(@RequestBody EmployeeDto dto){
-        return ResponseEntity.status(HttpStatus.CREATED).body(employeeService.create(dto));
+    public ResponseEntity<Employee> createEmployee(@Valid @RequestBody EmployeeDto dto){
+        return ResponseEntity.status(HttpStatus.CREATED).body(employeeService.createEmployee(dto));
     }
 
     @PutMapping(value = "/update")
-    public ResponseEntity<Employee> updateEmployee(@RequestBody EmployeeDto dto){
-        return ResponseEntity.ok().body(employeeService.updateEmployee(dto));
+    public ResponseEntity<Employee> updateEmployee(@Valid @RequestBody EmployeeDto dto){
+        return ResponseEntity.ok().body(employeeService.updateEmployeeDetails(dto));
     }
 
     @DeleteMapping(value = "/{id}")

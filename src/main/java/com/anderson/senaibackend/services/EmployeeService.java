@@ -6,7 +6,6 @@ import com.anderson.senaibackend.domain.repositories.EmployeeRepository;
 import com.anderson.senaibackend.dto.EmployeeDto;
 import com.anderson.senaibackend.exceptions.BadRequestFoundException;
 import com.anderson.senaibackend.exceptions.ResourceNotFoundException;
-import com.anderson.senaibackend.mapper.EmployeeMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,7 +29,11 @@ public class EmployeeService{
                 .orElseThrow(()-> new ResourceNotFoundException("funcionario não encontrado"));
     }
 
-    public Employee create(EmployeeDto dto){
+    public Employee createEmployee(EmployeeDto dto){
+
+        if(dto.id() != null){
+            throw new BadRequestFoundException("O id do client tem que ser null");
+        }
 
         checkFieldEmailInDataBase(dto.email());// verificando se ja existe um email cadastrado
 
@@ -40,10 +43,10 @@ public class EmployeeService{
 
         checkEnumInField(dto.typeEmployee()); // verificando se exisite o tipo selecionado
 
-        return employeeRepository.save(EmployeeMapper.toEntity(dto));
+        return employeeRepository.save(dto.toEntity(dto));
     }
 
-    public Employee updateEmployee(EmployeeDto dto){
+    public Employee updateEmployeeDetails(EmployeeDto dto){
 
         employeeRepository.findById(dto.id())
                 .orElseThrow(()-> new ResourceNotFoundException("Funcionario não encontrado"));
@@ -54,7 +57,7 @@ public class EmployeeService{
 
         checkEnumInField(dto.typeEmployee());
 
-        return employeeRepository.save(EmployeeMapper.toEntity(dto));
+        return employeeRepository.save(dto.toEntity(dto));
     }
 
     public void deleteEmployee(Long id){
