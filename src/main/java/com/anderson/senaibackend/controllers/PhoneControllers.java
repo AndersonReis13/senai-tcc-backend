@@ -19,7 +19,7 @@ public class PhoneControllers {
         this.phoneService = phoneService;
     }
 
-    @GetMapping(value = "/all")
+    @GetMapping
     public ResponseEntity<List<Phone>> findAll(){
         return ResponseEntity.ok().body(phoneService.findAll());
     }

@@ -20,7 +20,7 @@ public class ClientControllers {
         this.clientService = clientService;
     }
 
-    @GetMapping(value = "/all")
+    @GetMapping
     public ResponseEntity<List<Client>> findAll(){
         return ResponseEntity.ok().body(clientService.findAll());
     }

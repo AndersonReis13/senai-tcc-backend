@@ -25,7 +25,7 @@ public class EmployeeControllers {
         return ResponseEntity.ok().body(employeeService.findById(id));
     }
 
-    @GetMapping(value = "/all")
+    @GetMapping
     public ResponseEntity<List<Employee>> findAll(){
         return ResponseEntity.ok().body(employeeService.findAll());
     }
