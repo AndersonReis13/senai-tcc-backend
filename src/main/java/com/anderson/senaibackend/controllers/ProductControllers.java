@@ -4,9 +4,12 @@ import com.anderson.senaibackend.domain.model.Product;
 import com.anderson.senaibackend.dto.ProductDto;
 import com.anderson.senaibackend.services.ProductService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "cos/product")
@@ -14,6 +17,7 @@ public class ProductControllers {
 
     public final ProductService productServices;
 
+    @Autowired
     public ProductControllers(ProductService productServices) {
         this.productServices = productServices;
     }
@@ -21,6 +25,11 @@ public class ProductControllers {
     @GetMapping(value = "/{id}")
     public ResponseEntity<Product> findById(@PathVariable(value = "id") Long id){
         return ResponseEntity.ok().body(productServices.findById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Product>> findAll(){
+        return ResponseEntity.ok().body(productServices.findAll());
     }
 
     @PostMapping(value = "/create")
