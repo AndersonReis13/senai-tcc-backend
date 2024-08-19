@@ -4,6 +4,7 @@ import com.anderson.senaibackend.domain.model.Client;
 import com.anderson.senaibackend.dto.ClientDto;
 import com.anderson.senaibackend.services.ClientService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ public class ClientControllers {
 
     private final ClientService clientService;
 
+    @Autowired
     public ClientControllers(ClientService clientService) {
         this.clientService = clientService;
     }

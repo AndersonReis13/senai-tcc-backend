@@ -1,13 +1,12 @@
 package com.anderson.senaibackend.services;
 
 import com.anderson.senaibackend.domain.model.Client;
-import com.anderson.senaibackend.domain.model.Phone;
 import com.anderson.senaibackend.domain.repositories.ClientRepository;
 import com.anderson.senaibackend.domain.repositories.PhoneRepository;
 import com.anderson.senaibackend.dto.ClientDto;
 import com.anderson.senaibackend.exceptions.BadRequestFoundException;
+import com.anderson.senaibackend.exceptions.CPFException;
 import com.anderson.senaibackend.exceptions.ResourceNotFoundException;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,6 +46,7 @@ public class ClientService {
                 .orElseThrow(()-> new ResourceNotFoundException("Esse celular não existe"));
 
         checkFieldInClientDataBase(dto.email(), dto.cpf());
+        isValidCPF(dto.cpf());
 
         return clientRepository.save(dto.toEntity(dto, phoneDb));
     }
@@ -73,16 +73,26 @@ public class ClientService {
         }
     }
 
-    public void checkEmailInDatabase(String email){
+    private void checkEmailInDatabase(String email){
         if(!clientRepository.existsByEmail(email)){
             throw new ResourceNotFoundException("Email não encontrado");
         }
     }
 
-    public void checkCpfInDatabase(String cpf){
+    private void checkCpfInDatabase(String cpf){
         if(!clientRepository.existsByCpf(cpf)){
             throw new ResourceNotFoundException("cpf não encontrado");
         }
+    }
+
+    private boolean isValidCPF(String cpf) {
+        cpf = cpf.replaceAll("[^0-9]", "");
+        // CPF com todos os números iguais
+        if (cpf.matches("(\\d)\\1{10}")) {
+            throw new CPFException("O cpf contém todos os números iguais");
+        }
+
+        return false;
     }
 
 }

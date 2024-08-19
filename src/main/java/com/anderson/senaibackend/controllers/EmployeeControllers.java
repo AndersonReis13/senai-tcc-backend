@@ -4,6 +4,7 @@ import com.anderson.senaibackend.domain.model.Employee;
 import com.anderson.senaibackend.dto.EmployeeDto;
 import com.anderson.senaibackend.services.EmployeeService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ public class EmployeeControllers {
 
     public final EmployeeService employeeService;
 
+    @Autowired
     public EmployeeControllers(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }

@@ -4,6 +4,7 @@ import com.anderson.senaibackend.domain.model.Phone;
 import com.anderson.senaibackend.dto.PhoneDto;
 import com.anderson.senaibackend.services.PhoneService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import java.util.List;
 public class PhoneControllers {
     private final PhoneService phoneService;
 
+    @Autowired
     public PhoneControllers(PhoneService phoneService) {
         this.phoneService = phoneService;
     }
