@@ -3,13 +3,18 @@ package com.anderson.senaibackend.domain.model;
 import com.anderson.senaibackend.domain.model.enums.TypeEmployee;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "Employee")
-public class Employee implements Serializable {
+public class Employee implements Serializable, UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +41,6 @@ public class Employee implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "employee_status", nullable = false)
-    @JsonProperty(value = "employee_status")
     private TypeEmployee employeeStatus;
 
     public Employee() {
@@ -51,6 +55,41 @@ public class Employee implements Serializable {
         this.phoneNumber = phoneNumber;
         this.employeeStatus = typeEmployeeId;
     }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if(this.employeeStatus == TypeEmployee.GERENTE){
+            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"),
+                    new SimpleGrantedAuthority("ROLE_USER"));
+        }
+        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
 
     public Long getId() {
         return id;
