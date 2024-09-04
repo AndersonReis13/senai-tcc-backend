@@ -1,6 +1,7 @@
 package com.anderson.senaibackend.services;
 
 import com.anderson.senaibackend.domain.repositories.EmployeeRepository;
+import com.anderson.senaibackend.exceptions.BadRequestFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,7 +19,7 @@ public class AuthenrizationService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) {
         return employeeRepository.findByEmail(email);
     }
 }

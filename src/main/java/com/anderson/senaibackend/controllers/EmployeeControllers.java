@@ -32,10 +32,10 @@ public class EmployeeControllers {
         return ResponseEntity.ok().body(employeeService.findAll());
     }
 
-    @PostMapping(value = "/create")
+    /*@PostMapping(value = "/create")
     public ResponseEntity<Employee> createEmployee(@Valid @RequestBody EmployeeDto dto){
         return ResponseEntity.status(HttpStatus.CREATED).body(employeeService.createEmployee(dto));
-    }
+    }*/
 
     @PutMapping(value = "/update")
     public ResponseEntity<Employee> updateEmployee(@Valid @RequestBody EmployeeDto dto){

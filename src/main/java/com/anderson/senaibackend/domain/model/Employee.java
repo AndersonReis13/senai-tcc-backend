@@ -1,6 +1,7 @@
 package com.anderson.senaibackend.domain.model;
 
 import com.anderson.senaibackend.domain.model.enums.TypeEmployee;
+import com.anderson.senaibackend.exceptions.BadRequestFoundException;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,7 +32,7 @@ public class Employee implements Serializable, UserDetails {
     @JsonProperty(value = "email")
     private String email;
 
-    @Column(name = "password", length = 20)
+    @Column(name = "password", length = 250)
     @JsonProperty(value = "password")
     private String password;
 
@@ -46,6 +47,12 @@ public class Employee implements Serializable, UserDetails {
     public Employee() {
     }
 
+   public Employee(String email, String password, TypeEmployee typeEmployee){
+        this.email = email;
+        this.password = password;
+        this.employeeStatus = typeEmployee;
+   }
+
     public Employee(Long id, String firstName, String lastName, String email, String password, String phoneNumber, TypeEmployee typeEmployeeId) {
         this.id = id;
         this.firstName = firstName;
@@ -58,11 +65,11 @@ public class Employee implements Serializable, UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(this.employeeStatus == TypeEmployee.GERENTE){
-            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"),
-                    new SimpleGrantedAuthority("ROLE_USER"));
-        }
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+
+        if(this.employeeStatus == null) throw new BadRequestFoundException("O employee status não pode ser null");
+
+        if(this.employeeStatus == TypeEmployee.GERENTE) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+        else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     @Override
