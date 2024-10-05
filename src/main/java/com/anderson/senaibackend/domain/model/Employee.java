@@ -47,12 +47,6 @@ public class Employee implements Serializable, UserDetails {
     public Employee() {
     }
 
-   public Employee(String email, String password, TypeEmployee typeEmployee){
-        this.email = email;
-        this.password = password;
-        this.employeeStatus = typeEmployee;
-   }
-
     public Employee(Long id, String firstName, String lastName, String email, String password, String phoneNumber, TypeEmployee typeEmployeeId) {
         this.id = id;
         this.firstName = firstName;

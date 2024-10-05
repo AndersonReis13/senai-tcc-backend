@@ -18,7 +18,7 @@ public record EmployeeDto(Long id,
                           @JsonProperty(value = "email")String email,
 
                          @NotBlank(message = "não pode ser vazio")
-                          @Size(min = 11, max = 11, message = "o password tem que ter 11 digitos")
+                          @Size(min = 11, message = "o password tem que ter no minimo 11 digitos")
                           @JsonProperty(value = "password") String password,
 
                          @NotBlank(message = "não pode ser vazio")

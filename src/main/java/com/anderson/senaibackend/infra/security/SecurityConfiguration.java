@@ -33,8 +33,8 @@ public class SecurityConfiguration {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/cos/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/cos/auth/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/cos/employee").hasRole("USER")
-                        .requestMatchers(HttpMethod.GET, "cos/client").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

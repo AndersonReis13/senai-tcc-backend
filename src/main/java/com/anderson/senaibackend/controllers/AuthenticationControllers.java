@@ -11,9 +11,11 @@ import com.anderson.senaibackend.exceptions.BadRequestFoundException;
 import com.anderson.senaibackend.infra.security.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,33 +40,41 @@ public class AuthenticationControllers {
 
     @PostMapping(value = "/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDto dto){
+        try {
+            logger.info("Entrando no login");
 
-     var userNamePassword = new UsernamePasswordAuthenticationToken(dto.email(), dto.password());
-     var auth = this.authenticationManager.authenticate(userNamePassword);
+            var userNamePassword = new UsernamePasswordAuthenticationToken(dto.email(), dto.password());
+            var auth = this.authenticationManager.authenticate(userNamePassword);
 
-     var token = tokenService.generateToken((Employee) auth.getPrincipal());
+            var token = tokenService.generateToken((Employee) auth.getPrincipal());
 
 
-     return ResponseEntity.ok(new LoginResponseDto(token));
+            return ResponseEntity.ok(new LoginResponseDto(token));
+
+        } catch (AuthenticationException e) {
+            throw new BadRequestFoundException("Usuario não encontrado!");
+        }
     }
 
     @PostMapping(value = "/register")
-    public ResponseEntity<Employee> register(@RequestBody @Valid EmployeeRegisterDto dto){
-
+    public ResponseEntity register(@RequestBody @Valid EmployeeDto dto){
         logger.info("entrando no register");
 
-        if(employeeRepository.existsByEmail(dto.email())){
-            throw new BadRequestFoundException("Ja existe um login cadastrado");
+        if(!employeeRepository.existsByEmail(dto.email())){
         }
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(dto.password());
-        Employee employee = new Employee(dto.email(), encryptedPassword, TypeEmployee.valueOf(dto.typeEmployee()));
+        Employee employee = new Employee(dto.id(),
+                dto.firstName(),
+                dto.lastName(),
+                dto.email(),
+                encryptedPassword,
+                dto.phoneNumber(),
+                TypeEmployee.valueOf(dto.typeEmployee().toUpperCase()));
 
         Employee newEmployee = employeeRepository.save(employee);
 
         logger.info("employee salvo " + newEmployee);
-        return ResponseEntity.ok(newEmployee);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newEmployee);
     }
-
-
 }
