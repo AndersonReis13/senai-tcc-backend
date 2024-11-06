@@ -1,0 +1,18 @@
+{
+  "name": "Java 22 with Maven",
+  "image": "mcr.microsoft.com/vscode/devcontainers/base:ubuntu",  // Usando uma imagem base do Ubuntu
+  "build": {
+    "dockerfile": "Dockerfile"  // Referência ao Dockerfile se você quiser personalizar a instalação
+  },
+  "postCreateCommand": "sudo apt update && sudo apt install -y openjdk-22-jdk",  // Comando para instalar o JDK 22
+  "settings": {
+    "java.home": "/usr/lib/jvm/java-22-openjdk-amd64"
+  },
+  "extensions": [
+    "vscjava.vscode-java-pack",  // Extensões para Java
+    "redhat.java",
+    "vscjava.vscode-maven",
+    "vscjava.vscode-spring-boot-dashboard"
+  ],
+  "forwardPorts": [8080]
+}
