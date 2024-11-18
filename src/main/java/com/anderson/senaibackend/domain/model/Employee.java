@@ -2,6 +2,7 @@ package com.anderson.senaibackend.domain.model;
 
 import com.anderson.senaibackend.domain.model.enums.TypeEmployee;
 import com.anderson.senaibackend.exceptions.BadRequestFoundException;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -57,7 +58,9 @@ public class Employee implements Serializable, UserDetails {
         this.employeeStatus = typeEmployeeId;
     }
 
+
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
         if(this.employeeStatus == null) throw new BadRequestFoundException("O employee status não pode ser null");
@@ -71,21 +74,25 @@ public class Employee implements Serializable, UserDetails {
         return email;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;
