@@ -61,6 +61,7 @@ public class AuthenticationControllers {
         logger.info("entrando no register");
 
         if(!employeeRepository.existsByEmail(dto.email())){
+            throw new BadRequestFoundException("Já existe um usuario com esse email");
         }
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(dto.password());
@@ -68,6 +69,7 @@ public class AuthenticationControllers {
                 dto.firstName(),
                 dto.lastName(),
                 dto.email(),
+                dto.cpf(),
                 encryptedPassword,
                 dto.phoneNumber(),
                 TypeEmployee.valueOf(dto.typeEmployee().toUpperCase()));

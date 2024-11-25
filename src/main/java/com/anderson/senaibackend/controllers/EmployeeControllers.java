@@ -22,9 +22,9 @@ public class EmployeeControllers {
         this.employeeService = employeeService;
     }
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<Employee> findById(@PathVariable(value = "id") Long id){
-        return ResponseEntity.ok().body(employeeService.findById(id));
+    @GetMapping(value = "/{cpf}")
+    public ResponseEntity<Employee> findById(@PathVariable(value = "id") String cpf){
+        return ResponseEntity.ok().body(employeeService.findByCpf(cpf));
     }
 
     @GetMapping
@@ -43,8 +43,8 @@ public class EmployeeControllers {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id){
-        employeeService.deleteEmployee(id);
+    public ResponseEntity<?> delete(@PathVariable(value = "cpf") String cpf){
+        employeeService.deleteEmployee(cpf);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 }
