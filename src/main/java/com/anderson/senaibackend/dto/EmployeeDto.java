@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import org.hibernate.validator.constraints.br.CPF;
 
 public record EmployeeDto(Long id,
                          @NotBlank(message = "não pode ser vazio")
@@ -16,9 +17,11 @@ public record EmployeeDto(Long id,
 
                          @NotBlank @Email(message = "insira um email valido")
                           @JsonProperty(value = "email")String email,
+                         @NotBlank @CPF(message = "insira um cpf valido")
+                         @JsonProperty(value = "cpf") String cpf,
 
                          @NotBlank(message = "não pode ser vazio")
-                          @Size(min = 11, message = "o password tem que ter no minimo 11 digitos")
+                          @Size(min = 6, message = "o password tem que ter no minimo 6 digitos")
                           @JsonProperty(value = "password") String password,
 
                          @NotBlank(message = "não pode ser vazio")
@@ -34,6 +37,7 @@ public record EmployeeDto(Long id,
                 dto.firstName(),
                 dto.lastName(),
                 dto.email(),
+                dto.cpf(),
                 dto.password(),
                 dto.phoneNumber(),
                 TypeEmployee.valueOf(dto.typeEmployee().toUpperCase())

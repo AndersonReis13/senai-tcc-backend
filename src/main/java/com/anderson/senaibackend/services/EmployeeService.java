@@ -24,9 +24,9 @@ public class EmployeeService{
         return employeeRepository.findAll();
     }
 
-    public Employee findById(Long id){
-        return employeeRepository.findById(id)
-                .orElseThrow(()-> new ResourceNotFoundException("funcionario não encontrado"));
+    public Employee findByCpf(String cpf){
+        checkCpfInDataBase(cpf);
+        return employeeRepository.findByCpf(cpf);
     }
 
     public Employee createEmployee(EmployeeDto dto){
@@ -60,10 +60,9 @@ public class EmployeeService{
         return employeeRepository.save(dto.toEntity(dto));
     }
 
-    public void deleteEmployee(Long id){
-        var EmployeeDb = employeeRepository.findById(id)
-                .orElseThrow(()-> new ResourceNotFoundException("Funcionario não encontrado"));
-
+    public void deleteEmployee(String cpf){
+        checkCpfInDataBase(cpf);
+        var EmployeeDb = employeeRepository.findByCpf(cpf);
         Employee employee = EmployeeDb;
 
         employeeRepository.delete(employee);
@@ -80,4 +79,11 @@ public class EmployeeService{
             throw new BadRequestFoundException("Não existe este tipo de empregador");
         }
     }
+
+    public void checkCpfInDataBase(String cpf){
+        if(employeeRepository.findByCpf(cpf) == null) {
+            throw new BadRequestFoundException("Usuario não encontrado");
+        }
+    }
+
 }

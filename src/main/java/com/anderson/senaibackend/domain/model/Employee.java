@@ -33,6 +33,10 @@ public class Employee implements Serializable, UserDetails {
     @JsonProperty(value = "email")
     private String email;
 
+    @Column(name = "cpf", length = 11, unique = true)
+    @JsonProperty(value = "cpf")
+    private String cpf;
+
     @Column(name = "password", length = 250)
     @JsonProperty(value = "password")
     private String password;
@@ -48,16 +52,16 @@ public class Employee implements Serializable, UserDetails {
     public Employee() {
     }
 
-    public Employee(Long id, String firstName, String lastName, String email, String password, String phoneNumber, TypeEmployee typeEmployeeId) {
+    public Employee(Long id, String firstName, String lastName, String email, String cpf, String password, String phoneNumber, TypeEmployee employeeStatus) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.cpf = cpf;
         this.password = password;
         this.phoneNumber = phoneNumber;
-        this.employeeStatus = typeEmployeeId;
+        this.employeeStatus = employeeStatus;
     }
-
 
     @Override
     @JsonIgnore
@@ -149,6 +153,10 @@ public class Employee implements Serializable, UserDetails {
 
     public void setTypeEmployeeId(TypeEmployee typeEmployeeId) {
         this.employeeStatus = typeEmployeeId;
+    }
+
+    public String getCpf() {
+        return cpf;
     }
 
     @Override
