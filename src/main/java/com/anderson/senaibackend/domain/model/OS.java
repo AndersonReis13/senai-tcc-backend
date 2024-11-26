@@ -34,12 +34,12 @@ public class OS {
 
     @Column(name = "estimated_time", nullable = false)
     @JsonProperty(value = "estimated_time")
-    private LocalDateTime estimatedTime;
+    private LocalDate estimatedTime;
 
     public OS() {
     }
 
-    public OS(Long id, LocalDate emissionDate, Client clientId, String description, String material, LocalDateTime estimatedTime) {
+    public OS(Long id, LocalDate emissionDate, Client clientId, String description, String material, LocalDate estimatedTime) {
         this.id = id;
         this.emissionDate = emissionDate;
         this.clientId = clientId;
@@ -84,11 +84,11 @@ public class OS {
         this.material = material;
     }
 
-    public LocalDateTime getEstimatedTime() {
+    public LocalDate getEstimatedTime() {
         return estimatedTime;
     }
 
-    public void setEstimatedTime(LocalDateTime estimatedTime) {
+    public void setEstimatedTime(LocalDate estimatedTime) {
         this.estimatedTime = estimatedTime;
     }
 

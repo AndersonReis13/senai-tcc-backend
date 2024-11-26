@@ -1,7 +1,9 @@
 package com.anderson.senaibackend.services;
 
 import com.anderson.senaibackend.domain.model.OS;
+import com.anderson.senaibackend.domain.repositories.ClientRepository;
 import com.anderson.senaibackend.domain.repositories.OsRepository;
+import com.anderson.senaibackend.dto.OSDto;
 import com.anderson.senaibackend.exceptions.BadRequestFoundException;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +13,13 @@ import java.util.List;
 public class OSService {
 
     private final OsRepository osRepository;
+    private final ClientRepository clientRepository;
 
 
-    public OSService(OsRepository osRepository) {
+
+    public OSService(OsRepository osRepository, ClientRepository clientRepository) {
         this.osRepository = osRepository;
+        this.clientRepository = clientRepository;
     }
 
 
@@ -27,8 +32,22 @@ public class OSService {
                 .orElseThrow(()-> new BadRequestFoundException("OS não encontrada"));
     }
 
-    public OS createOS(){
-        return null;
+    public OS createOS(OSDto dto){
+        var clientDb = clientRepository.findById(dto.clientId())
+                .orElseThrow(()-> new BadRequestFoundException("Cliente não encontrado"));
+
+        return osRepository.save(dto.toEntity(dto, clientDb));
+    }
+
+    public OS updateOs(OSDto dto){
+        var clientDb = clientRepository.findById(dto.clientId())
+                .orElseThrow(()-> new BadRequestFoundException("Cliente não encontrado"));
+
+        return osRepository.save(dto.toEntity(dto, clientDb));
+    }
+
+    public void delete(Long id){
+        osRepository.delete(findById(id));
     }
 
 }
