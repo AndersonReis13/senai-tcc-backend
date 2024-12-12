@@ -33,17 +33,14 @@ public class OSService {
     }
 
     public OS createOS(OSDto dto){
-        var clientDb = clientRepository.findById(dto.clientId())
-                .orElseThrow(()-> new BadRequestFoundException("Cliente não encontrado"));
 
-        return osRepository.save(dto.toEntity(dto, clientDb));
+        return osRepository.save(dto.toEntity(dto));
     }
 
     public OS updateOs(OSDto dto){
-        var clientDb = clientRepository.findById(dto.clientId())
-                .orElseThrow(()-> new BadRequestFoundException("Cliente não encontrado"));
 
-        return osRepository.save(dto.toEntity(dto, clientDb));
+
+        return osRepository.save(dto.toEntity(dto));
     }
 
     public void delete(Long id){
