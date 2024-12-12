@@ -2,6 +2,7 @@ package com.anderson.senaibackend.services;
 
 import com.anderson.senaibackend.domain.model.Client;
 import com.anderson.senaibackend.domain.repositories.ClientRepository;
+import com.anderson.senaibackend.domain.repositories.OsRepository;
 import com.anderson.senaibackend.domain.repositories.PhoneRepository;
 import com.anderson.senaibackend.dto.ClientDto;
 import com.anderson.senaibackend.exceptions.BadRequestFoundException;
@@ -18,13 +19,15 @@ public class ClientService {
 
     private final ClientRepository clientRepository;
     private final PhoneRepository phoneRepository;
+    private final OsRepository osRepository;
 
     private Logger logger = Logger.getLogger(Client.class.getName());
 
 
-    public ClientService(ClientRepository clientRepository, PhoneRepository phoneRepository){
+    public ClientService(ClientRepository clientRepository, PhoneRepository phoneRepository, OsRepository osRepository){
         this.clientRepository = clientRepository;
         this.phoneRepository = phoneRepository;
+        this.osRepository = osRepository;
     }
 
     public List<Client> findAll(){
@@ -45,10 +48,13 @@ public class ClientService {
         var phoneDb = phoneRepository.findById(dto.phoneId())
                 .orElseThrow(()-> new ResourceNotFoundException("Esse celular não existe"));
 
+        var osDb = osRepository.findById(dto.orderId())
+                        .orElseThrow(()-> new ResourceNotFoundException("essa ordem não existe"));
+
         checkFieldInClientDataBase(dto.email(), dto.cpf());
         isValidCPF(dto.cpf());
 
-        return clientRepository.save(dto.toEntity(dto, phoneDb));
+        return clientRepository.save(dto.toEntity(dto, phoneDb, osDb));
     }
 
     public Client updateClientDetails(ClientDto dto){
@@ -58,7 +64,10 @@ public class ClientService {
         var entityClient = clientRepository.findById(dto.id())
                 .orElseThrow(() -> new ResourceNotFoundException("esse cliente não existe cadastrado"));
 
-        return clientRepository.save(dto.toEntity(dto, phoneDb));
+        var osDb = osRepository.findById(dto.orderId())
+                .orElseThrow(()-> new ResourceNotFoundException("essa ordem não existe"));
+
+        return clientRepository.save(dto.toEntity(dto, phoneDb,osDb));
     }
 
     public void deleteEmployee(Long id){

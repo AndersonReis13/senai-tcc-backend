@@ -1,6 +1,7 @@
 package com.anderson.senaibackend.dto;
 
 import com.anderson.senaibackend.domain.model.Client;
+import com.anderson.senaibackend.domain.model.OS;
 import com.anderson.senaibackend.domain.model.Phone;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
@@ -29,9 +30,12 @@ public record ClientDto(
                         @JsonProperty(value = "phone_number") String phoneNumber,
 
                         @NotNull(message = "o id nao pode ser vazio")
-                        @JsonProperty(value = "phone_id") Long phoneId){
+                        @JsonProperty(value = "phone_id") Long phoneId,
 
-    public Client toEntity(ClientDto dto, Phone phone){
+                        @NotNull(message = "o id nao pode ser vazio")
+                        @JsonProperty(value = "order_id") Long orderId){
+
+    public Client toEntity(ClientDto dto, Phone phone, OS os){
         return new Client(
                 dto.id(),
                 dto.firstName(),
@@ -40,6 +44,7 @@ public record ClientDto(
                 dto.cpf(),
                 dto.address(),
                 dto.phoneNumber(),
-                phone);
+                phone,
+                os);
     }
 }

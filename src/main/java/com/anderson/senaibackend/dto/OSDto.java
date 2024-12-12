@@ -10,16 +10,14 @@ import java.time.LocalDate;
 
 public record OSDto(
                     Long id,
-                    Long clientId,
                    @NotBlank(message = "não pode ser vazio") String description,
                    @NotBlank(message = "não pode ser vazio") String material,
                     @JsonFormat(pattern = "dd/MM/yyyy") LocalDate estimatedTime){
 
-    public OS toEntity(OSDto dto, Client client){
+    public OS toEntity(OSDto dto){
         return new OS(
-                dto.clientId(),
+                dto.id(),
                 LocalDate.now(),
-                client,
                 dto.description(),
                 dto.material(),
                 dto.estimatedTime()

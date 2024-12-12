@@ -20,10 +20,6 @@ public class OS {
     @JsonProperty(value = "emission_date")
     private LocalDate emissionDate = LocalDate.now();
 
-    @OneToOne
-    @JoinColumn(name = "client_id")
-    @JsonProperty(value = "client_id")
-    private Client clientId;
 
     @Column(name = "description", length = 250, nullable = false)
     @JsonProperty(value = "description")
@@ -41,10 +37,9 @@ public class OS {
     public OS() {
     }
 
-    public OS(Long id, LocalDate emissionDate, Client clientId, String description, String material, LocalDate estimatedTime) {
+    public OS(Long id, LocalDate emissionDate, String description, String material, LocalDate estimatedTime) {
         this.id = id;
         this.emissionDate = emissionDate;
-        this.clientId = clientId;
         this.description = description;
         this.material = material;
         this.estimatedTime = estimatedTime;
@@ -62,13 +57,6 @@ public class OS {
         this.emissionDate = emissionDate;
     }
 
-    public Client getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(Client clientId) {
-        this.clientId = clientId;
-    }
 
     public String getDescription() {
         return description;

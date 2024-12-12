@@ -42,11 +42,16 @@ public class Client implements Serializable {
     @JsonProperty(value = "phone_id")
     private Phone phoneId;
 
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    @JsonProperty(value = "order_id")
+    private OS orderId;
+
     public Client(){
     }
 
 
-    public Client(Long id, String firstName, String lastName, String email, String cpf, String address, String phoneNumber, Phone phoneId) {
+    public Client(Long id, String firstName, String lastName, String email, String cpf, String address, String phoneNumber, Phone phoneId, OS osId) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -55,10 +60,19 @@ public class Client implements Serializable {
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.phoneId = phoneId;
+        this.orderId = osId;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public OS getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(OS orderId) {
+        this.orderId = orderId;
     }
 
     public String getFirstName() {
