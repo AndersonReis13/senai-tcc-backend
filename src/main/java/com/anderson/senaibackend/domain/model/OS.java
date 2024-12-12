@@ -1,5 +1,6 @@
 package com.anderson.senaibackend.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
@@ -34,6 +35,7 @@ public class OS {
 
     @Column(name = "estimated_time", nullable = false)
     @JsonProperty(value = "estimated_time")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate estimatedTime;
 
     public OS() {

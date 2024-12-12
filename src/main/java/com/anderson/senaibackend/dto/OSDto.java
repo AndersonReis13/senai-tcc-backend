@@ -13,7 +13,7 @@ public record OSDto(
                     Long clientId,
                    @NotBlank(message = "não pode ser vazio") String description,
                    @NotBlank(message = "não pode ser vazio") String material,
-                   @JsonFormat(pattern = "yyyy-MM-dd") LocalDate estimatedTime){
+                    @JsonFormat(pattern = "dd/MM/yyyy") LocalDate estimatedTime){
 
     public OS toEntity(OSDto dto, Client client){
         return new OS(

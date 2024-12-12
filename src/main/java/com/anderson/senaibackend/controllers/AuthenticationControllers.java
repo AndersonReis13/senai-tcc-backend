@@ -76,7 +76,7 @@ public class AuthenticationControllers {
     public ResponseEntity register(@RequestBody @Valid EmployeeDto dto){
         logger.info("entrando no register");
 
-        if(!employeeRepository.existsByEmail(dto.email())){
+        if(employeeRepository.existsByEmail(dto.email())){
             throw new BadRequestFoundException("Já existe um usuario com esse email");
         }
 

@@ -35,6 +35,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/cos/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/cos/auth/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/cos/employee").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/cos/client").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
