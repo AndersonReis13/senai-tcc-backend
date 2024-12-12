@@ -26,7 +26,7 @@ public class OSControllers {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<OS> findById(@RequestParam(value = "id") Long id){
+    public ResponseEntity<OS> findById(@PathVariable(value = "id") Long id){
        return ResponseEntity.ok().body(osService.findById(id));
     }
 
