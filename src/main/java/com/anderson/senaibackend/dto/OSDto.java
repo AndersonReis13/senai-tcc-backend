@@ -8,7 +8,9 @@ import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDate;
 
 
-public record OSDto(Long clientId,
+public record OSDto(
+                    Long id,
+                    Long clientId,
                    @NotBlank(message = "não pode ser vazio") String description,
                    @NotBlank(message = "não pode ser vazio") String material,
                    @JsonFormat(pattern = "yyyy-MM-dd") LocalDate estimatedTime){
